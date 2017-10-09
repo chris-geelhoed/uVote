@@ -9,6 +9,16 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var env = process.env.NODE_ENV || 'development';
+var config = require('./config')[env];
+
+var dbUrl = `mongodb://${config.username}:${config.password}@${config.url}:${config.port}/${config.db}`;
+
+var mongoose = require('mongoose');
+mongoose.connect(dbUrl, {
+  useMongoClient: true
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
