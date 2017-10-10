@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var history = require('connect-history-api-fallback');
 
-var index = require('./routes/index');
+var kittens = require('./routes/kittens');
 var users = require('./routes/users');
 
 var app = express();
@@ -33,8 +33,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(history());
 app.use(express.static('./public/dist'));
-app.use('/', index);
-app.use('/users', users);
+app.use('/api/kittens', kittens);
+app.use('/api/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

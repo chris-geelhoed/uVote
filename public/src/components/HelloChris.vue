@@ -19,7 +19,6 @@
     </ul>
   </div>
 </template>
-
 <script>
 export default {
   name: 'HelloChris',
@@ -27,6 +26,12 @@ export default {
     return {
       msg: 'Welcome to Chris Vue.js App'
     }
+  },
+  mounted () {
+    window.axios.post('/api/kittens')
+      .then(response => {
+        console.log(response)
+      })
   }
 }
 </script>
