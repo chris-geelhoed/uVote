@@ -4,9 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import _ from 'lodash'
 window.axios = axios
+window._ = _
 
 Vue.config.productionTip = false
+
+window.bus = new Vue()
 
 /* eslint-disable no-new */
 new Vue({

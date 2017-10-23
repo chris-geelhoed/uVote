@@ -1,0 +1,10 @@
+.card {
+    transition: transform 100ms ease-out;
+    &:hover {
+        transform: translateY(-2px);
+    }
+    .time {
+        text-align: right;
+        font-size: 0.875em;
+    }
+}

@@ -1,0 +1,93 @@
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $light;
+    padding-top: 0.375em;
+    padding-bottom: 0.375em;
+
+    &.box:not(:last-child) {
+        margin-bottom: 0;
+    }
+    .site-branding {
+        display: flex;
+        align-items: center;
+        margin-right: 0.5em;
+        .bars {
+            position: relative;
+            width: 40px;
+            height: 30px;
+            @include tablet {
+                width: 70px;
+                height: 50px;
+            }
+            .bar {
+                position: absolute;
+                width: 16%;
+                bottom: 16%;
+                left: 20%;
+                background-color: $turquoise;
+                transform-origin: bottom;
+                transform: scaleY(1);
+                &:nth-child(3) {
+                    left: 20%;
+                    height: 67%;
+                }
+    
+                &:nth-child(4) {
+                    left: 40%;
+                    height: 57%;
+                }
+    
+                &:nth-child(5) {
+                    left: 60%;
+                    height: 32%;
+                }
+            }
+    
+            .x-axis {
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: 16%;
+                background-color: $blue;
+                transform: translateY(100%);
+            }
+    
+            .y-axis {
+                position: absolute;
+                width: 2px;
+                height: 100%;
+                left: 10%;
+                background-color: $blue;
+                transform: translateX(-100%);
+            }
+        }
+
+        .site-title {
+            text-align: center;
+            color: $dark;
+            font-size: 1.25em;
+            margin-left: -0.375em;
+            @include tablet {
+                font-size: 2em;
+                margin-left: -0.5em;
+            }
+        }
+
+        &:hover {
+            .bars .bar:nth-child(5) {
+                transform: scaleY(2.5);
+                background-color: $blue;
+                transition: transform 800ms ease-in-out,
+                            background-color 200ms ease-in-out;         
+            }
+        }
+    }
+
+    .search-container {
+        width: 100%;
+        max-width: $row-width / 2;
+    }
+
+}

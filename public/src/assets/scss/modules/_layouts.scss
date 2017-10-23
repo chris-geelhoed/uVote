@@ -1,0 +1,15 @@
+.layout-container {
+    padding-left: 1em;
+    padding-right: 1em;
+    @include tablet {
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+}
+
+.layout-row {
+    max-width: $row-width;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}

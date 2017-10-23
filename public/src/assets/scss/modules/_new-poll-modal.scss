@@ -1,0 +1,23 @@
+.new-poll-modal {
+    .choices {
+        .choice {
+            .has-close-button {
+                position: relative;
+                .delete {
+                    position: absolute;
+                    right: 0.5em;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
+            &:nth-child(1),
+            &:nth-child(2) {
+                .has-close-button {
+                    .delete {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

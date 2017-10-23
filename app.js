@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var history = require('connect-history-api-fallback');
 
-var kittens = require('./routes/kittens');
+var poll = require('./routes/poll');
 var users = require('./routes/users');
 
 var app = express();
@@ -16,6 +16,7 @@ var config = require('./config')[env];
 var dbUrl = `mongodb://${config.username}:${config.password}@${config.url}:${config.port}/${config.db}`;
 
 var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 mongoose.connect(dbUrl, {
   useMongoClient: true
 });
@@ -33,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(history());
 app.use(express.static('./public/dist'));
-app.use('/api/kittens', kittens);
+app.use('/api/poll', poll);
 app.use('/api/users', users);
 
 // catch 404 and forward to error handler
