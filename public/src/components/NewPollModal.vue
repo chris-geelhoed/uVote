@@ -18,12 +18,11 @@
           <label class="label">Choices</label>
 
           <div class="choices">
-            <transition-group name="fade"
+            <transition-group
             mode="out-in"
             :css="false"
-            v-on:before-enter="beforeEnter"
-            v-on:enter="enter"
-            v-on:after-enter="afterEnter">
+            @before-enter="beforeEnter"
+            @enter="enter">
               <choice v-for="(choice, index) in newPollChoices"
               :choice="choice"
               :index="index"
@@ -76,14 +75,6 @@
   import Choice from './Choice'
   import Velocity from 'velocity-animate'
 
-  function findDelete (el) {
-    return el.querySelector('.choice .delete')
-  }
-
-  function findInput (el) {
-    return el.querySelector('.choice .input')
-  }
-
   export default {
     name: 'NewPollModal',
     components: {
@@ -109,16 +100,17 @@
 
       },
       beforeEnter (el, done) {
-        findDelete(el).style.opacity = '0'
+        el.style.opacity = '0'
       },
       enter (el, done) {
-        const input = findInput(el)
-        input.style.transform = 'scaleX(0)'
-        Velocity(input, { maxHeight: ['36px', '0px'], opacity: [1, 0] }, { duration: 100 })
-        Velocity(input, { scaleX: [1, 0] }, { duration: 300, complete: done })
-      },
-      afterEnter (el, done) {
-        Velocity(findDelete(el), { opacity: [1, 0] }, { duration: 200, complete: done })
+        Velocity(el,
+          {
+            opacity: [1, 0]
+          },
+          {
+            duration: 300,
+            complete: done
+          })
       }
     }
   }
