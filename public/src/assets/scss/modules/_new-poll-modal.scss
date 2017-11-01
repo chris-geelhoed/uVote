@@ -1,4 +1,9 @@
 .new-poll-modal {
+
+    .modal-card {
+        background-color: white;
+    }
+    
     .choices {
         .choice {
             .has-close-button {
@@ -18,6 +23,15 @@
                     }
                 }
             }
+        }
+    }
+
+    .success {
+        .fa-check-circle {
+            display: block;
+            text-align: center;
+            font-size: 10em;
+            color: $turquoise;
         }
     }
 }

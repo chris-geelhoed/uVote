@@ -6,8 +6,13 @@ var userSchema = new Schema({
         type: String,
         required: true
     },
-    votes: {
-        type: Array
+    choiceIds: {
+        type: Array,
+        required: false
+    },
+    createdPollIds: {
+        type: Array,
+        required: false
     }
 });
 

@@ -3,21 +3,30 @@
     <site-header></site-header>
 
     <keep-alive>
-      <new-poll-modal v-if="modals.newPoll.show"
-      :newPollForm="newPollForm"
-      :canAddChoice="canAddChoice"
-      :canMakePoll="canMakePoll">
-      </new-poll-modal>
+      <transition name="fade">
+        <new-poll-modal v-if="showNewPollModal"
+        :showNewPollSuccess="showNewPollSuccess"
+        :newPollChoices="newPollChoices"
+        :canAddChoice="canAddChoice"
+        :canMakePoll="canMakePoll">
+        </new-poll-modal>
+      </transition>
     </keep-alive>
 
-    <router-view
-    :message="message"/>
+    <router-view/>
   </div>
 </template>
 
 <script>
 import SiteHeader from './components/siteheader'
 import NewPollModal from './components/NewPollModal'
+
+function wait (delay) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, delay)
+  })
+}
+
 export default {
   name: 'app',
   components: {
@@ -26,64 +35,63 @@ export default {
   },
   data () {
     return {
-      message: 'hello world',
-      modals: {
-        newPoll: {
-          show: false
-        }
-      },
-      newPollForm: {
-        name: '',
-        choices: ['', '', '', '']
-      }
+      userId: '',
+      showNewPollModal: false,
+      showNewPollSuccess: false,
+      newPollChoices: ['', '', '', '']
     }
   },
   computed: {
     canAddChoice () {
-      return this.newPollForm.choices.length < 4
+      return this.newPollChoices.length < 4
     },
     choicesWithText () {
-      return this.newPollForm.choices.filter(choice => choice)
+      return this.newPollChoices.filter(choice => choice)
     },
     canMakePoll () {
-      return this.newPollForm.name && this.choicesWithText.length > 1
+      return this.choicesWithText.length > 1
     }
   },
   methods: {
-    handleModalClick (name, shouldShow = false) {
-      let modalsCopy = window._.cloneDeep(this.modals)
-      modalsCopy[name].show = shouldShow
-      this.modals = modalsCopy
+    toggleNewPollModal (shouldShow) {
+      this.showNewPollModal = shouldShow
     },
     deleteChoice (indexToDelete) {
-      let newPollFormsCopy = window._.cloneDeep(this.newPollForm)
-      newPollFormsCopy.choices.splice(indexToDelete, 1)
-      this.newPollForm = newPollFormsCopy
+      this.newPollChoices = this.newPollChoices.filter((choice, index) => {
+        return index !== indexToDelete
+      })
     },
     addChoice () {
-      let newPollFormsCopy = window._.cloneDeep(this.newPollForm)
-      newPollFormsCopy.choices.push('')
-      this.newPollForm = newPollFormsCopy
+      this.newPollChoices = this.newPollChoices.concat('')
     },
     updateChoice (newChoice, indexToChange) {
-      let newPollFormsCopy = window._.cloneDeep(this.newPollForm)
-      newPollFormsCopy.choices[indexToChange] = newChoice
-      this.newPollForm = newPollFormsCopy
+      this.newPollChoices = this.newPollChoices.map((choice, index) => {
+        return index === indexToChange ? newChoice : choice
+      })
     },
     createPoll () {
-      console.log(this.newPollForm.name)
-      console.log(this.choicesWithText)
-      // this.handleModalClick('newPoll')
+      window.axios.post('/api/poll', {
+        userId: this.userId,
+        choices: this.choicesWithText
+      })
+        .then(response => {
+          return wait(400)
+        })
+        .then(response => {
+          this.showNewPollSuccess = true
+          return wait(1200)
+        })
     }
   },
-  mounted () {
-    window.axios.post('/api/poll')
+  beforeCreate () {
+    window.axios.post('/api/user')
       .then(response => {
-        console.log(response.data)
+        this.userId = response.data.userId
       })
-
-    window.bus.$on('newPollClicked', this.handleModalClick.bind(this, 'newPoll', true))
-    window.bus.$on('modalCloseClicked', this.handleModalClick)
+  },
+  mounted () {
+    window.bus.$on('newPollClicked', this.toggleNewPollModal.bind(this, true))
+    window.bus.$on('modalCloseClicked', this.toggleNewPollModal.bind(this, false))
     window.bus.$on('deleteChoiceClicked', this.deleteChoice)
     window.bus.$on('addChoiceClicked', this.addChoice)
     window.bus.$on('choiceUpdated', this.updateChoice)

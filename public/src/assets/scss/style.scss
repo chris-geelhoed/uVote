@@ -1,4 +1,5 @@
 @import '../../../node_modules/bulma/bulma.sass';
+@import '../../../node_modules/font-awesome/css/font-awesome.min.css';
 
 
 @import 'modules/variables.scss';
@@ -8,5 +9,7 @@
 @import 'modules/header.scss';
 @import 'modules/tabs.scss';
 @import 'modules/cards.scss';
+@import 'modules/choices.scss';
 @import 'modules/ribbons.scss';
 @import 'modules/new-poll-modal.scss';
+@import 'modules/transitions.scss';

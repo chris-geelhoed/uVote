@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var history = require('connect-history-api-fallback');
+// var history = require('connect-history-api-fallback');
 
 var poll = require('./routes/poll');
-var users = require('./routes/users');
+var user = require('./routes/user');
 
 var app = express();
 var env = process.env.NODE_ENV || 'development';
@@ -32,10 +32,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(history());
+// app.use(history());
 app.use(express.static('./public/dist'));
 app.use('/api/poll', poll);
-app.use('/api/users', users);
+app.use('/api/user', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
