@@ -26,6 +26,7 @@ router.post('/', function (req, res, next) {
   //   createdPollIds: []
   // });
   var choices = req.body.choices.slice(0, 4);
+  var title = req.body.title;
   var userId = req.body.userId;
 
   User.findById(userId).exec()
@@ -58,6 +59,7 @@ router.post('/', function (req, res, next) {
 
       var newPoll = new Poll({
         creatorUserId: userId,
+        title: title,
         choiceIds: choiceIds
       });
 
@@ -77,33 +79,41 @@ router.get('/', function (req, res, next) {
   // var examplePollId = '59f37a2e4de3d9072919dff0';
   var pollId = req.query.id;
   var query = pollId ? { _id: pollId } : {};
+  var pollsData = [];
   Poll.find(query).exec()
     .then(function (docs) {
+      var pollPromises = [];
+      docs.forEach(function (poll) {
 
-      // res.json({ docs: docs });
+        pollsData.push({
+          title: poll.title,
+          choices: []
+        });
 
-      var polls = docs.map(function (doc) {
-        var choices = doc.choiceIds.map(function (choiceId) {
+        var choicePromises = poll.choiceIds.map(function (choiceId) {
           return Choice.findById(choiceId).exec();
         });
-        return Promise.all(choices);
+
+        var allChoicePromises = Promise.all(choicePromises);
+        pollPromises.push(allChoicePromises)
       });
-    
-      return Promise.all(polls)
-      
+        
+      return Promise.all(pollPromises)
     })
     .then(function (docs) {
 
-      var pollsData = docs.map(function (pollDoc) {
-        return pollDoc.map(function (choiceDoc) {
+      docs.forEach(function(pollChoices, index) {
+        var choiceData = pollChoices.map(function(pollChoice) {
           return {
-            choice: choiceDoc.choice,
-            votes: choiceDoc.userIds.length
+            id: pollChoice._id,
+            text: pollChoice.choice,
+            votes: pollChoice.userIds.length
           };
         });
+        pollsData[index].choices = choiceData;
       });
 
-      res.json({ pollsData: pollsData });
+      res.json(pollsData);
     });
 });
 

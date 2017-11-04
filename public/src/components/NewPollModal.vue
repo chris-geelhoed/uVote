@@ -15,6 +15,18 @@
 
         <section v-else key="body-2" class="modal-card-body">
 
+          <label class="label">Title</label>
+
+          <div class="title field">
+            <div class="control has-close-button">
+              <input :value="newPollTitle"
+              @input="handleTitleChange"
+              class="input"
+              type="text"
+              placeholder="">
+            </div>
+          </div>
+
           <label class="label">Choices</label>
 
           <div class="choices">
@@ -82,6 +94,7 @@
     },
     props: [
       'showNewPollSuccess',
+      'newPollTitle',
       'newPollChoices',
       'canAddChoice',
       'canMakePoll'
@@ -95,6 +108,9 @@
       },
       handleCreatePoll () {
         window.bus.$emit('createPollClicked')
+      },
+      handleTitleChange (event) {
+        window.bus.$emit('titleUpdated', event.target.value)
       },
       handleSeePoll () {
 

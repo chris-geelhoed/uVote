@@ -2,16 +2,17 @@
 
   <div class="column is-one-third">
     <router-link to="/">
-      <div class="card">
+      <div class="card full-height">
         <div class="ribbons">
-          <ribbon :numberOfVotes="3"></ribbon>
-          <ribbon :numberOfVotes="7"></ribbon>
-          <ribbon :numberOfVotes="7"></ribbon>
-          <ribbon :numberOfVotes="2"></ribbon>
+          <ribbon v-for="(choice, index) in choices"
+          :index="index"
+          :key="index"
+          :numberOfVotes="choice.votes"
+          ></ribbon>
         </div>
-        <div class="card-content">
-          <div class="content">
-            Tabs or Spaces?
+        <div class="card-content full-height">
+          <div class="content full-height">
+            {{ title }}
             <br>
             <br>
             <div class="time">Yesterday</div>
@@ -28,10 +29,9 @@
     components: {
       Ribbon
     },
-    data () {
-      return {
-        votes: [6, 4]
-      }
-    }
+    props: [
+      'title',
+      'choices'
+    ]
   }
 </script>

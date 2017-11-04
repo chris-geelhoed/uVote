@@ -3,10 +3,12 @@
         <div id="primary" class="content-area layout-row">
             <tabs :modalsToShow="modalsToShow"></tabs>
             <div class="columns is-multiline is-variable is-3">
-              <card></card>
-              <card></card>
-              <card></card>
-              <card></card>
+              <card v-for="(poll, index) in polls"
+              :index="index"
+              :key="index"
+              :title="poll.title"
+              :choices="poll.choices"
+              ></card>
             </div>
         </div>
       </div>
@@ -24,7 +26,8 @@ export default {
   },
   props: [
     'message',
-    'modalsToShow'
+    'modalsToShow',
+    'polls'
   ],
   data () {
     return {

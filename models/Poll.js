@@ -6,6 +6,10 @@ var pollSchema = new Schema({
         type: String,
         required: true
     },
+    title: {
+        type: String,
+        required: true
+    },
     choiceIds: {
         type: Array,
         required: true
