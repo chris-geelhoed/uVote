@@ -1,17 +1,16 @@
 <template>
-    <div id="content" class="site-content layout-container">
-        <div id="primary" class="content-area layout-row">
-            <tabs :modalsToShow="modalsToShow"></tabs>
-            <div class="columns is-multiline is-variable is-3">
-              <card v-for="(poll, index) in polls"
-              :index="index"
-              :key="index"
-              :title="poll.title"
-              :choices="poll.choices"
-              ></card>
-            </div>
+  <div id="content" class="site-content layout-container">
+    <div id="primary" class="content-area layout-row">
+        <tabs :sortPollsBy="sortPollsBy" ></tabs>
+        <div class="columns is-multiline is-variable is-3">
+          <card v-for="(poll, index) in sortedPolls"
+          :index="index"
+          :key="index"
+          :poll="poll"
+          ></card>
         </div>
-      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -25,9 +24,8 @@ export default {
     Card
   },
   props: [
-    'message',
-    'modalsToShow',
-    'polls'
+    'sortedPolls',
+    'sortPollsBy'
   ],
   data () {
     return {

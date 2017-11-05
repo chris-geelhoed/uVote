@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import HelloChris from '@/components/HelloChris'
+import Poll from '@/components/Poll'
 
 Vue.use(Router)
 
@@ -14,9 +14,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/poll/:poll_slug',
+      path: '/poll/:id',
       name: 'Poll',
-      component: HelloChris
+      component: Poll
     }
   ]
 })

@@ -79,8 +79,8 @@
             .bars .bar:nth-child(5) {
                 transform: scaleY(2.5);
                 background-color: $blue;
-                transition: transform 800ms ease-in-out,
-                            background-color 200ms ease-in-out;         
+                transition: transform 2000ms ease-in-out,
+                            background-color 500ms ease-in-out;         
             }
         }
     }

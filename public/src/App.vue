@@ -14,7 +14,10 @@
       </transition>
     </keep-alive>
 
-    <router-view :polls="polls"/>
+    <router-view :sortedPolls="sortedPolls"
+    :sortPollsBy="sortPollsBy"
+    :activeChoiceId="activeChoiceId"
+    />
     
   </div>
 </template>
@@ -44,7 +47,9 @@ export default {
       showNewPollSuccess: false,
       newPollTitle: '',
       newPollChoices: emptyNewPollChoices,
-      polls: []
+      polls: [],
+      sortPollsBy: 'popular',
+      activeChoiceId: ''
     }
   },
   computed: {
@@ -56,9 +61,34 @@ export default {
     },
     canMakePoll () {
       return this.choicesWithText.length > 1 && this.newPollTitle
+    },
+    sortedPolls () {
+      if (this.sortPollsBy === 'popular') {
+        return this.polls.sort((pollA, pollB) => {
+          return pollA.totalVotes - pollB.totalVotes
+        })
+      }
+      if (this.sortPollsBy === 'recent') {
+        return this.polls.sort((pollA, pollB) => {
+          return pollB.timeCreated - pollA.timeCreated
+        })
+      }
+      return this.polls
     }
   },
   methods: {
+    submitVote () {
+      window.axios.post('/api/vote')
+        .then(response => {
+          console.log(response.data)
+        })
+    },
+    updateActiveChoiceId (activeChoiceId) {
+      this.activeChoiceId = activeChoiceId
+    },
+    updateSortPollsBy (sortPollsBy) {
+      this.sortPollsBy = sortPollsBy
+    },
     toggleNewPollModal (shouldShow) {
       this.showNewPollModal = shouldShow
       this.showNewPollSuccess = false
@@ -120,6 +150,9 @@ export default {
     window.bus.$on('choiceUpdated', this.updateChoice)
     window.bus.$on('titleUpdated', this.updateTitle)
     window.bus.$on('createPollClicked', this.createPoll)
+    window.bus.$on('tabWasClicked', this.updateSortPollsBy)
+    window.bus.$on('pollChoiceWasClicked', this.updateActiveChoiceId)
+    window.bus.$on('pollChoiceWasSubmitted', this.submitVote)
   }
 }
 </script>

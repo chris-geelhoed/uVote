@@ -1,10 +1,10 @@
 <template>
 
   <div class="column is-one-third">
-    <router-link to="/">
+    <router-link :to="route">
       <div class="card full-height">
         <div class="ribbons">
-          <ribbon v-for="(choice, index) in choices"
+          <ribbon v-for="(choice, index) in poll.choices"
           :index="index"
           :key="index"
           :numberOfVotes="choice.votes"
@@ -12,10 +12,10 @@
         </div>
         <div class="card-content full-height">
           <div class="content full-height">
-            {{ title }}
+            {{ poll.title }}
             <br>
             <br>
-            <div class="time">Yesterday</div>
+            <div class="time">{{ poll.formattedTimeCreated }}</div>
           </div>
         </div>
       </div>
@@ -30,8 +30,13 @@
       Ribbon
     },
     props: [
-      'title',
-      'choices'
-    ]
+      'index',
+      'poll'
+    ],
+    computed: {
+      route () {
+        return `poll/${this.poll.id}`
+      }
+    }
   }
 </script>

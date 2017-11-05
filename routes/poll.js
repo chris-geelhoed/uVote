@@ -7,6 +7,9 @@ var Choice = require('../models/Choice');
 
 var Promise = require('bluebird');
 
+var helpers = require('../helpers');
+var formatTime = helpers.formatTime;
+
 router.post('/', function (req, res, next) {
   var options = {
     new: true,
@@ -59,6 +62,7 @@ router.post('/', function (req, res, next) {
 
       var newPoll = new Poll({
         creatorUserId: userId,
+        timeCreated: Date.now(),
         title: title,
         choiceIds: choiceIds
       });
@@ -86,6 +90,9 @@ router.get('/', function (req, res, next) {
       docs.forEach(function (poll) {
 
         pollsData.push({
+          id: poll._id,
+          timeCreated: poll.timeCreated,
+          formattedTimeCreated: formatTime(poll.timeCreated),
           title: poll.title,
           choices: []
         });
@@ -103,14 +110,21 @@ router.get('/', function (req, res, next) {
     .then(function (docs) {
 
       docs.forEach(function(pollChoices, index) {
-        var choiceData = pollChoices.map(function(pollChoice) {
-          return {
+        var totalVotes = 0;
+        var choiceData = [];
+        pollChoices.forEach(function(pollChoice) {
+          var votes = pollChoice.userIds.length
+          totalVotes += votes
+          var pollChoice = {
             id: pollChoice._id,
             text: pollChoice.choice,
-            votes: pollChoice.userIds.length
+            votes: votes
           };
+          choiceData.push(pollChoice)
         });
+        
         pollsData[index].choices = choiceData;
+        pollsData[index].totalVotes = totalVotes;
       });
 
       res.json(pollsData);
