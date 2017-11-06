@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     handleSubmitClick () {
-      window.bus.$emit('pollChoiceWasSubmitted')
+      window.bus.$emit('pollChoiceWasSubmitted', this.poll.id)
     }
   }
 }

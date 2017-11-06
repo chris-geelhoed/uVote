@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 // var history = require('connect-history-api-fallback');
 
 var poll = require('./routes/poll');
-var user = require('./routes/user');
 var vote = require('./routes/vote');
 
 var app = express();
@@ -36,7 +35,6 @@ app.use(cookieParser());
 // app.use(history());
 app.use(express.static('./public/dist'));
 app.use('/api/poll', poll);
-app.use('/api/user', user);
 app.use('/api/vote', vote);
 
 // catch 404 and forward to error handler

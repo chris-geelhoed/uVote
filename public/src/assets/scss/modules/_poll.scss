@@ -73,7 +73,7 @@
                     background: $turquoise;
                     width: 100%;
                     max-width: 20%;
-                    height: 90%;
+                    transition: height 400ms ease-out;
                     margin: 0 1em;
                     &:first-child {
                         margin-left: 3em;

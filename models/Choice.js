@@ -6,7 +6,7 @@ var choiceSchema = new Schema({
         type: String,
         required: true
     },
-    userIds: {
+    voterIps: {
         type: Array,
         required: false
     }

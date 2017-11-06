@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var pollSchema = new Schema({
-    creatorUserId: {
+    creatorIp: {
         type: String,
         required: true
     },

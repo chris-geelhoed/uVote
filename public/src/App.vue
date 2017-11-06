@@ -42,7 +42,6 @@ export default {
   },
   data () {
     return {
-      userId: '',
       showNewPollModal: false,
       showNewPollSuccess: false,
       newPollTitle: '',
@@ -77,12 +76,17 @@ export default {
     }
   },
   methods: {
-    submitVote () {
+    submitVote (pollId) {
       window.axios.post('/api/vote', {
+        pollId: pollId,
         choiceId: this.activeChoiceId
       })
         .then(response => {
           console.log(response.data)
+          if (response.data.voteWasSuccessful) {
+            this.getPollsFromDb()
+            console.log('yup')
+          }
         })
     },
     updateActiveChoiceId (activeChoiceId) {
@@ -120,7 +124,6 @@ export default {
     },
     createPoll () {
       window.axios.post('/api/poll', {
-        userId: this.userId,
         title: this.newPollTitle,
         choices: this.choicesWithText
       })
@@ -134,12 +137,6 @@ export default {
           this.showNewPollSuccess = true
         })
     }
-  },
-  beforeCreate () {
-    window.axios.post('/api/user')
-      .then(response => {
-        this.userId = response.data.userId
-      })
   },
   created () {
     this.getPollsFromDb()
