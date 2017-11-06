@@ -19,7 +19,16 @@
           </div>
         </div>
         <div class="graph-container column is-two-thirds">
-          <div class="graph full-height"></div>
+          <div class="graph">
+            <div class="graph-inner">
+              <bar v-for="(choice, index) in poll.choices"
+              :index="index"
+              :key="index"
+              :votes="choice.votes"
+              :scaleHeight="scaleHeight"
+              ></bar>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -27,10 +36,12 @@
 </template>
 <script>
 import PollButton from './PollButton'
+import Bar from './Bar'
 export default {
   name: 'Poll',
   components: {
-    PollButton
+    PollButton,
+    Bar
   },
   props: [
     'sortedPolls',
@@ -47,6 +58,18 @@ export default {
         return activePoll[0]
       }
       return ''
+    },
+    votes () {
+      return this.poll.choices.map(choice => choice.votes)
+    },
+    hasVotes () {
+      return this.votes.reduce((totalVotes, choice) => {
+        return totalVotes + choice
+      }, 0)
+    },
+    scaleHeight () {
+      const maxHeight = Math.max(...this.votes)
+      return maxHeight || 1
     }
   },
   methods: {

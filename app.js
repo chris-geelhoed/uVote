@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 
 var poll = require('./routes/poll');
 var user = require('./routes/user');
+var vote = require('./routes/vote');
 
 var app = express();
 var env = process.env.NODE_ENV || 'development';
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use(express.static('./public/dist'));
 app.use('/api/poll', poll);
 app.use('/api/user', user);
+app.use('/api/vote', vote);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

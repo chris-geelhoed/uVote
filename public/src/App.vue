@@ -78,7 +78,9 @@ export default {
   },
   methods: {
     submitVote () {
-      window.axios.post('/api/vote')
+      window.axios.post('/api/vote', {
+        choiceId: this.activeChoiceId
+      })
         .then(response => {
           console.log(response.data)
         })
