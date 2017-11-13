@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app"
+  :class="{ 'modal-is-active': showNewPollModal }">
     <site-header :activeSearch="activeSearch"></site-header>
 
     <keep-alive>
@@ -71,7 +72,7 @@ function throttle (func, wait, options) {
     }
     return result
   }
-};
+}
 
 export default {
   name: 'app',
@@ -241,10 +242,12 @@ export default {
     window.bus.$on('pollChoiceWasSubmitted', this.submitVote)
 
     window.onscroll = throttle(() => {
-      const buffer = 10
-      const hasScrolledToBottom = window.innerHeight + window.pageYOffset + buffer >= document.body.offsetHeight
-      if (hasScrolledToBottom) {
-        this.numberOfPollsToShow += 3
+      if (this.$route.path === '/') {
+        const buffer = 10
+        const hasScrolledToBottom = window.innerHeight + window.pageYOffset + buffer >= document.body.offsetHeight
+        if (hasScrolledToBottom) {
+          this.numberOfPollsToShow += 3
+        }
       }
     }, 800, { leading: false })
   }

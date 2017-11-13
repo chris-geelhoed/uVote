@@ -9,6 +9,20 @@
 
         .content {
             position: relative;
+            .top-line {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 2.5em;
+                .is-hot {
+                    max-width: 50px;
+                    width: 100%;
+                    margin-left: 1em;
+                    font-size: 1em;
+                    font-weight: 700;
+                    color: $dark-orange;
+                }
+            }
+
             .time {
                 text-align: right;
                 font-size: 0.875em;
@@ -21,16 +35,6 @@
                 left: 0;
                 bottom: 0;
             }
-
-            .is-hot {
-                font-size: 1em;
-                font-weight: 700;
-                position: absolute;
-                right: 0;
-                top: 0;
-                color: $dark-orange;
-            }
-            
         }
     }
 }

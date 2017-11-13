@@ -2,6 +2,11 @@
     <div class="tabs">
         <ul>
 
+          <li class="new-poll">
+            <a @click="handleNewPollClick"
+            class="button is-primary" to="/">New Poll</a>
+          </li>
+
           <li :class="{ 'is-active': sortByPopular }"
           @click="handlePopularClick">
             <a>Popular</a>
@@ -17,10 +22,6 @@
             <a>Hot</a>
           </li>
 
-          <li class="new-poll">
-            <a @click="handleNewPollClick"
-            class="button is-primary" to="/">New Poll</a>
-          </li>
         </ul>
       </div>
 </template>

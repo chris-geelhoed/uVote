@@ -12,15 +12,16 @@
         </div>
         <div class="card-content full-height">
           <div class="content full-height">
-            {{ poll.title }}
-            <br>
-            <br>
-
-            <div v-if="isHot" class="is-hot">
-              <i class="fire fa fa-fire" aria-hidden="true"></i>
-              hot
+            <div class="top-line">
+              <div class="poll-title">
+                  {{ poll.title }}
+              </div>
+              
+              <div v-if="isHot" class="is-hot">
+                <i class="fire fa fa-fire" aria-hidden="true"></i>
+                hot
+              </div>
             </div>
-            
 
             <div class="time">{{ poll.formattedTimeCreated }}</div>
 

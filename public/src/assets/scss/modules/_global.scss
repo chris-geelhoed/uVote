@@ -1,14 +1,22 @@
-body {
+#app {
     min-height: 101vh;
-    // height: 3000px;
+    &.modal-is-active {
+        min-height: unset;
+        height: 100vh !important;
+        overflow: hidden;
+    }
 }
 
 .full-height {
-    display:flex;
+    display: flex;
     flex-direction: column;
     height: 100%;
 }
 
 .button {
     font-weight: 500;
+}
+
+.delete {
+    padding: 0;
 }

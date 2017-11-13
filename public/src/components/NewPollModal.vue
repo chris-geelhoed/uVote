@@ -76,11 +76,6 @@
           @click="handleAddChoice"
           key="button-2"
           class="button is-primary">Add Choice</button>
-          
-          <button @click="handleCloseClick"
-          class="button">
-            Cancel
-          </button>
 
         </footer>
 

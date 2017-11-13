@@ -1,10 +1,20 @@
 .tabs {
   ul {
+    width: 100%;
     align-items: flex-end;
+    flex-wrap: wrap;
     margin-top: 1em;
     .new-poll {
+      order: 1;
       margin-left: auto;
       margin-bottom: 1em;
+      @media screen and (max-width: $small) {
+        order: 0;
+        width: 100%;
+        .button {
+          max-width: 150px;
+        }
+      }
     }
   }
 }
