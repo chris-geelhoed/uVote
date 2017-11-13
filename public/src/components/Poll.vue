@@ -1,34 +1,55 @@
 <template>
   <div id="content" class="site-content layout-container">
     <div id="primary" class="content-area layout-row">
-      <div class="poll-container columns">
-        <div class="left-container column is-one-third">
-          <div class="poll-choice-buttons-container full-height">
-            <poll-button v-for="(choice, index) in poll.choices"
-            :index="index"
-            :key="index"
-            :choice="choice"
-            :activeChoiceId="activeChoiceId"
-            ></poll-button>
+      <div class="poll-container">
 
-            <a class="submit-button button"
-            @click="handleSubmitClick">
-              Submit
-            </a>
-
-          </div>
+        <div class="poll-header">
+          <h3 class="poll-title">{{ poll.title }}</h3>
         </div>
-        <div class="graph-container column is-two-thirds">
-          <div class="graph">
-            <div class="graph-inner">
-              <bar v-for="(choice, index) in poll.choices"
-              :index="index"
-              :key="index"
-              :votes="choice.votes"
-              :scaleHeight="scaleHeight"
-              ></bar>
+        
+        <div class="poll-body columns">
+
+          <div class="right-container column is-two-thirds">
+            <div class="graph">
+
+              <div class="graph-inner">
+                <bar v-for="(choice, index) in poll.choices"
+                :index="index"
+                :key="index"
+                :votes="choice.votes"
+                :scaleHeight="scaleHeight"
+                ></bar>
+              </div>
+
+              <transition name="fade">
+                <div v-if="!hasVotes" class="no-votes-yet">
+                  This poll has not received any votes yet
+                </div>
+              </transition>
+
             </div>
           </div>
+
+          <div class="left-container column is-one-third">
+            <div class="poll-choice-buttons-container full-height">
+
+              <poll-button v-for="(choice, index) in poll.choices"
+              :index="index"
+              :key="index"
+              :choice="choice"
+              :activeChoiceId="activeChoiceId"
+              ></poll-button>
+
+              <a class="submit-button button"
+              @click="handleSubmitClick">
+                Submit
+              </a>
+
+            </div>
+          </div>
+
+          
+
         </div>
       </div>
     </div>
@@ -60,12 +81,16 @@ export default {
       return ''
     },
     votes () {
-      return this.poll.choices.map(choice => choice.votes)
+      if (this.poll.choices) {
+        return this.poll.choices.map(choice => choice.votes)
+      }
     },
     hasVotes () {
-      return this.votes.reduce((totalVotes, choice) => {
-        return totalVotes + choice
-      }, 0)
+      if (this.poll.choices) {
+        return this.votes.reduce((totalVotes, choice) => {
+          return totalVotes + choice
+        }, 0)
+      }
     },
     scaleHeight () {
       const maxHeight = Math.max(...this.votes)
@@ -82,30 +107,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  li {
-    a {
-      color: blue;
-    }
-  }
-}
-
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>

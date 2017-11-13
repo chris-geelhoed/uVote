@@ -15,13 +15,29 @@
   </router-link>
 
     <div class="search-container">
-      <input class="input search" type="text" placeholder="Search for a poll (eg 'tabs or spaces?')">
+      <input class="input search"
+      :value="activeSearch"
+      @input="handleSearchChange"
+      @focus="handleFocus"
+      type="text"
+      placeholder="Search for a poll (eg 'tabs or spaces?')">
     </div>
 
   </header>
 </template>
 <script>
   export default {
-    name: 'site-header'
+    name: 'site-header',
+    props: [
+      'activeSearch'
+    ],
+    methods: {
+      handleSearchChange (event) {
+        window.bus.$emit('searchUpdated', event.target.value)
+      },
+      handleFocus () {
+        this.$router.push('/')
+      }
+    }
   }
 </script>

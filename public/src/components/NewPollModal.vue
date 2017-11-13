@@ -19,11 +19,14 @@
 
           <div class="title field">
             <div class="control has-close-button">
+
               <input :value="newPollTitle"
               @input="handleTitleChange"
               class="input"
               type="text"
+              maxLength="20"
               placeholder="">
+
             </div>
           </div>
 
@@ -51,8 +54,10 @@
 
         <footer v-if="showNewPollSuccess" key="footer-1" class="modal-card-foot">
 
-            <button @click="handleSeePoll"
-            class="button is-primary">See Poll</button>
+            <button class="button is-primary"
+            @click="handleSeePollClick">
+              See Poll
+            </button>
             
             <button @click="handleCloseClick"
             class="button">
@@ -97,8 +102,14 @@
       'newPollTitle',
       'newPollChoices',
       'canAddChoice',
-      'canMakePoll'
+      'canMakePoll',
+      'lastPollId'
     ],
+    computed: {
+      route () {
+        return `poll/${this.lastPollId}`
+      }
+    },
     methods: {
       handleCloseClick () {
         window.bus.$emit('modalCloseClicked', 'newPoll')
@@ -112,8 +123,9 @@
       handleTitleChange (event) {
         window.bus.$emit('titleUpdated', event.target.value)
       },
-      handleSeePoll () {
-
+      handleSeePollClick () {
+        this.$router.push(this.route)
+        this.handleCloseClick()
       },
       beforeEnter (el, done) {
         el.style.opacity = '0'

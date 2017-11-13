@@ -5,6 +5,7 @@
       @input="handleChange"
       class="input"
       type="text"
+      maxlength="16"
       placeholder="">
       <button @click="handleClick"
       class="delete" aria-label="close"></button>

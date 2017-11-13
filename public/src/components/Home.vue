@@ -2,13 +2,19 @@
   <div id="content" class="site-content layout-container">
     <div id="primary" class="content-area layout-row">
         <tabs :sortPollsBy="sortPollsBy" ></tabs>
-        <div class="columns is-multiline is-variable is-3">
-          <card v-for="(poll, index) in sortedPolls"
-          :index="index"
-          :key="index"
-          :poll="poll"
-          ></card>
-        </div>
+        
+          <transition-group name="fade"
+          tag="div"
+          class="cards-container columns is-multiline is-variable is-3">
+            <card v-for="(poll, index) in sortedPolls"
+            v-if="index < numberOfPollsToShow"
+            :index="index"
+            :key="index"
+            :poll="poll"
+            :isHot="topHottestPollIds.includes(poll.id)"
+            ></card>
+          </transition-group>
+     
     </div>
   </div>
 </template>
@@ -25,12 +31,9 @@ export default {
   },
   props: [
     'sortedPolls',
-    'sortPollsBy'
-  ],
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
+    'sortPollsBy',
+    'topHottestPollIds',
+    'numberOfPollsToShow'
+  ]
 }
 </script>

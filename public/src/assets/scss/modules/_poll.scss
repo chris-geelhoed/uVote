@@ -1,85 +1,207 @@
 .poll-container {
     margin-top: 2em;
-    padding: 2em;
     background-color: $light;
     box-shadow: 0 2px 10px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-    
-    .button {
-        display: block;
-        display: flex;
-        align-items: center;
-        height: 3em;
+
+    .poll-header {
+        background-color: $turquoise;
+        padding: 0.75em 2em 0.75em;
+        margin-bottom: 1em;
+        .poll-title {
+            font-size: 1.375em;
+            @media screen and (max-width: $small) {
+                font-size: 1em;
+            }
+            font-weight: 500;
+            color: white;
+        }
     }
 
-    .poll-choice-buttons-container {
-        display: flex;
-        flex-direction: column;
-        .poll-button {
-            position: relative;
-            margin-bottom: 0.75em;
-            color: $dark;
-            transition: 100ms background-color ease-in,
-                        100ms color ease-in;
+    .poll-body {
+        padding: 1em 2em 2em;
+        @media screen and (max-width: $small) {
+            padding: 0.5em 1em 1em;
+        }
+        .button {
+            display: block;
+            display: flex;
+            align-items: center;
+            height: 3em;
+        }
 
-            .letter {
-                position: absolute;
-                color: $turquoise;
-                font-size: 0.75em;
-                line-height: 1;
-                left: 0.5em;
-                top: 0.5em;
-                transition: font-size 80ms ease-in,
-                            top 80ms ease-in,
-                            left 80ms ease-in;
-            }
-            
-            &.active {
-                background-color: $blue;
-                color: white;
+        .poll-choice-buttons-container {
+            display: flex;
+            flex-direction: column;
+            .poll-button {
+                position: relative;
+                margin-bottom: 0.75em;
+                transition: 100ms background-color ease-in,
+                            100ms color ease-in;
+                font-weight: 400;
+
                 .letter {
-                    font-size: 1em;
-                    color: white;
-                    top: 0.25em;
-                    left: 0.375em;
+                    position: absolute;
+                    font-size: 0.75em;
+                    line-height: 1;
+                    left: 0.5em;
+                    top: 0.5em;
+                    transition: font-size 80ms ease-in,
+                                top 80ms ease-in,
+                                left 80ms ease-in;
+                    
+                }
+                
+                &.active {
+                    background-color: $blue;
+                    color: white !important;
+                    .letter {
+                        font-size: 1em;
+                        color: white !important;
+                        top: 0.25em;
+                        left: 0.375em;
+                    }
+
+                    &:after {
+                        background-color: transparent !important;
+                    }
+                }
+
+                &:after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    height: 2px;
+                    width: 100%;
+                    left: 0;
+                    bottom: 0;
+                }
+
+                &:nth-child(1) {
+                    color: $red;
+                    &.active,
+                    &:after {
+                        background-color: $red;
+                    }
+                }
+
+                &:nth-child(2) {
+                    color: $blue;
+                    &.active,
+                    &:after {
+                        background-color: $blue;
+                    }
+                }
+
+                &:nth-child(3) {
+                    color: $dark-orange;
+                    &.active,
+                    &:after {
+                        background-color: $orange;
+                    }
+                }
+
+                &:nth-child(4) {
+                    margin-bottom: 2em;
+                    color: $purple;
+                    &.active,
+                    &:after {
+                        background-color: $purple;
+                    }
                 }
             }
+
+            .submit-button {
+                @extend .is-primary;
+                margin-top: auto;
+            }
         }
 
-        .submit-button {
-            @extend .is-primary;
-            margin-top: auto;
-        }
-    }
+        .right-container {
+            order: 1;
+            .graph {
+                position: relative;
+                border: 1px solid #dbdbdb;
+                background-color: white;
+                padding: 1em;
+                padding-top: 56.25%;
+                .graph-inner {
+                    position: absolute;
+                    top: 2em;
+                    right: 2em;
+                    bottom: 2em;
+                    left: 2em;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: flex-end;
+                    border-bottom: 3px solid $gray;
+                    border-left: 3px solid $gray;
+                    .bar {
+                        position: relative;
+                        overflow: hidden;
+                        width: 100%;
+                        max-width: 20%;
+                        transition: height 400ms ease-out;
+                        margin: 0 1em;
+                        @media screen and (max-width: $small) {
+                            margin: 0 0.5em;
+                        }
+                        @media screen and (max-width: $xsmall) {
+                            margin: 0 0.25em;
+                        }
+                        &:first-child {
+                            margin-left: 3em;
+                            @media screen and (max-width: $small) {
+                                margin-left: 1.5em;
+                            }
+                        }
+                        &:last-child {
+                            margin-right: 3em;
+                            @media screen and (max-width: $small) {
+                                margin-right: 1.5em;
+                            }
+                        }
 
-    .graph-container {
-        .graph {
-            position: relative;
-            border: 1px solid #dbdbdb;
-            background-color: white;
-            padding: 1em;
-            padding-top: 56.25%;
-            .graph-inner {
-                position: absolute;
-                top: 2em;
-                right: 2em;
-                bottom: 2em;
-                left: 2em;
-                display: flex;
-                justify-content: space-around;
-                align-items: flex-end;
-                border-bottom: 3px solid $blue;
-                border-left: 3px solid $blue;
-                .bar {
-                    background: $turquoise;
-                    width: 100%;
-                    max-width: 20%;
-                    transition: height 400ms ease-out;
-                    margin: 0 1em;
-                    &:first-child {
-                        margin-left: 3em;
+                        &:nth-child(1) {
+                            background: $red;
+                        }
+
+                        &:nth-child(2) {
+                            background: $blue;
+                        }
+
+                        &:nth-child(3) {
+                            background: $orange;
+                        }
+
+                        &:nth-child(4) {
+                            background: $purple;
+                        }
+
+                        .letter {
+                            color: white;
+                            font-size: 1.125em;
+                            position: absolute;
+                            top: 0;
+                            left: 0.5em;
+                            @media screen and (max-width: $small) {
+                                font-size: 0.875em;
+                            }
+                        }
                     }
-                    &:last-child {
-                        margin-right: 3em;
+                }
+
+                .no-votes-yet {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    width: calc(100% - 4em);
+                    text-align: center;
+                    color: $blue;
+                    font-size: 1.125em;
+                    @media screen and (max-width: $small) {
+                        font-size: 0.875em;
+                        width: calc(100% - 6em);
                     }
                 }
             }

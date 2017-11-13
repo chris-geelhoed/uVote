@@ -1,5 +1,14 @@
+body {
+    min-height: 101vh;
+    // height: 3000px;
+}
+
 .full-height {
     display:flex;
     flex-direction: column;
     height: 100%;
+}
+
+.button {
+    font-weight: 500;
 }

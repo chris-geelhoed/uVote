@@ -12,6 +12,11 @@
             <a>Recent</a>
           </li>
 
+          <li :class="{ 'is-active': sortByHot }"
+          @click="handleHotClick">
+            <a>Hot</a>
+          </li>
+
           <li class="new-poll">
             <a @click="handleNewPollClick"
             class="button is-primary" to="/">New Poll</a>
@@ -32,6 +37,9 @@ export default {
     },
     sortByRecent () {
       return this.sortPollsBy === 'recent'
+    },
+    sortByHot () {
+      return this.sortPollsBy === 'hot'
     }
   },
   methods: {
@@ -43,6 +51,9 @@ export default {
     },
     handleRecentClick () {
       window.bus.$emit('tabWasClicked', 'recent')
+    },
+    handleHotClick () {
+      window.bus.$emit('tabWasClicked', 'hot')
     }
   }
 }

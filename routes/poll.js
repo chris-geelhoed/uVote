@@ -7,6 +7,7 @@ var Choice = require('../models/Choice');
 var Promise = require('bluebird');
 
 var helpers = require('../helpers');
+var getHotness = helpers.getHotness;
 var formatTime = helpers.formatTime;
 
 router.post('/', function (req, res, next) {
@@ -87,6 +88,8 @@ router.get('/', function (req, res, next) {
         
         pollsData[index].choices = choiceData;
         pollsData[index].totalVotes = totalVotes;
+        var timeCreated = pollsData[index].timeCreated;
+        pollsData[index].hotness = getHotness(totalVotes, timeCreated);
       });
 
       res.json(pollsData);

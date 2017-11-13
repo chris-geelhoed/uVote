@@ -1,18 +1,27 @@
 <template>
   <div class="bar"
   :style="{ height: height }"
-  ></div>
+  >
+    <div class="letter">
+      {{ letter }}
+    </div>
+  </div>
 </template>
 <script>
 export default {
   name: 'Bar',
   props: [
+    'index',
     'votes',
     'scaleHeight'
   ],
   computed: {
     height () {
       return `${(100 * this.votes) / this.scaleHeight}%`
+    },
+    letter () {
+      const letters = [ 'a', 'b', 'c', 'd' ]
+      return letters[this.index]
     }
   }
 }

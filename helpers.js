@@ -26,6 +26,14 @@ function formatTime (timeCreated) {
     return `${days} days ago`
 }
 
+function getHotness (totalVotes, timeCreated) {
+    var now = Date.now()
+    var timePollHasExisted = now - parseFloat(timeCreated)
+    var hotness = totalVotes * 100000000 / timePollHasExisted
+    return hotness
+}
+
 module.exports = {
-    formatTime: formatTime
+    formatTime: formatTime,
+    getHotness: getHotness
 }

@@ -13,6 +13,8 @@ router.post('/', function (req, res, next) {
   var pollId = req.body.pollId
   var ip = req.connection.remoteAddress;
 
+  var allowMultipleVotes = true;
+
   Poll.findById(pollId).exec()
     .then(function (docs) {
         var choicePromises = docs.choiceIds.map(function (choiceId) {
@@ -24,7 +26,7 @@ router.post('/', function (req, res, next) {
         var updateChoicePromises = docs.map(function (choice) {
             var newChoice = choice
             var voterIpIndex = newChoice.voterIps.indexOf(ip)
-            if (voterIpIndex !== -1) {
+            if (!allowMultipleVotes && voterIpIndex !== -1) {
                 newChoice.voterIps.splice(voterIpIndex, 1)
             }
 
