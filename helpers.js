@@ -1,6 +1,6 @@
 const msPerMinute = 1000 * 60
 const msPerHour = msPerMinute * 60
-const msPerDay = msPerHour * 60
+const msPerDay = msPerHour * 24
 
 function formatTime (timeCreated) {
     const now = Date.now()
