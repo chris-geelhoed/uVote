@@ -13,7 +13,7 @@ router.post('/', function (req, res, next) {
   var pollId = req.body.pollId
   var ip = req.connection.remoteAddress;
 
-  var allowMultipleVotes = true;
+  var allowMultipleVotes = false;
 
   Poll.findById(pollId).exec()
     .then(function (docs) {
